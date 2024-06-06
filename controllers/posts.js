@@ -42,10 +42,10 @@ const index = async (req, res) => {
             });
             html += '</ul>';
 
-        } else{
+        } else {
             where.published = true
             const posts = await prisma.post.findMany({ where });
-    
+
             html = '<h1>Posts</h1>';
             html += '<ul>';
             posts.forEach(post => {
@@ -60,7 +60,28 @@ const index = async (req, res) => {
         res.status(500).send("<h1>Qualcosa è andato storto</h1>");
     }
 }
+
+// Show
+const show = async (req, res) => {
+    try {
+        const { slug } = req.params;
+        const post = await prisma.post.findUnique({
+            where: { slug } // Utilizza direttamente lo slug come stringa
+        });
+        if (post) {
+            let html = `<h1>${post.title} ha come slug ${post.slug}</h1>`;
+            res.status(200).send(html);
+        } else {
+            let html = "<h1>Post non trovato</h1>";
+            res.status(404).send(html);
+        }
+    } catch (err) {
+        console.log("Errore:", err);
+        res.status(500).send("<h1>Qualcosa è andato storto</h1>");
+    }
+}
 module.exports = {
     create,
-    index
+    index,
+    show
 }
