@@ -24,6 +24,43 @@ const create = async (req, res) => {
     }
 }
 
+// Mostrare tutti i post
+const index = async (req, res) => {
+    let html
+    try {
+        const where = {};
+        const { published } = req.query;
+        // False
+        if (published == 'false') {
+            where.published == 'false'
+            const posts = await prisma.post.findMany({ where });
+
+            html = '<h1>Posts</h1>';
+            html += '<ul>';
+            posts.forEach(post => {
+                html += `<li>${post.title}</li>`;
+            });
+            html += '</ul>';
+
+        } else{
+            where.published = true
+            const posts = await prisma.post.findMany({ where });
+    
+            html = '<h1>Posts</h1>';
+            html += '<ul>';
+            posts.forEach(post => {
+                html += `<li>${post.title}</li>`;
+            });
+            html += '</ul>';
+        }
+        res.status(200).send(html);
+    }
+    catch (err) {
+        console.log("Qualcosa è andato storto", err);
+        res.status(500).send("<h1>Qualcosa è andato storto</h1>");
+    }
+}
 module.exports = {
-    create
+    create,
+    index
 }
