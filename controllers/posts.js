@@ -66,7 +66,7 @@ const show = async (req, res) => {
     try {
         const { slug } = req.params;
         const post = await prisma.post.findUnique({
-            where: { slug } // Utilizza direttamente lo slug come stringa
+            where: { slug }
         });
         if (post) {
             let html = `<h1>${post.title} ha come slug ${post.slug}</h1>`;
@@ -80,8 +80,47 @@ const show = async (req, res) => {
         res.status(500).send("<h1>Qualcosa è andato storto</h1>");
     }
 }
+
+// Update
+const update = async (req, res) => {
+    try {
+        const { slug } = req.params;
+        const post = await prisma.post.update({
+            where: { slug },
+            data: req.body,
+        });
+        res.json(post);
+    }
+    catch (err) {
+        res.status(500).send("<h1>Qualcosa è andato storto</h1>");
+    }
+}
+
+// Destroy
+const destroy = async (req, res) => {
+    try {
+        const { slug } = req.params;
+        const post = await prisma.post.findUnique({
+            where: { slug } 
+        });
+        if(post) {
+            await prisma.post.delete({
+                where: { slug }
+            });
+            res.send("Post eliminato");
+        } else {
+            res.send("Post non trovato");
+        }
+    } catch (err) {
+        console.error("Errore:", err);
+        res.status(500).send("<h1>Qualcosa è andato storto</h1>");
+    }
+};
+
 module.exports = {
     create,
     index,
-    show
+    show,
+    update,
+    destroy
 }
