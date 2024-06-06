@@ -2,7 +2,7 @@
   "name": "express-api-crud",
   "version": "1.0.0",
   "description": "Ciao Ragazzi,\r esercizio di oggi: express-api-crud\r Esercizio\r Iniziamo a creare le API per il nostro blog :occhiali_da_sole:. Iniziate con un nuovo progetto Express + Prisma.\r Potete utilizzare lo schema Prisma che avete creato nell'esercizio di ieri.\r Definizione degli endpoint\r Vi chiediamo di definire i seguenti endpoint:\r POST /posts per creare un nuovo post.\r GET /posts/:slug per recuperare un post utilizzando il suo slug.\r GET /posts per recuperare tutti i post presenti nel database, con la possibilità di filtrare per:\r Post pubblicati.\r Post che contengono una determinata parola nel titolo o nel contenuto.\r PUT /posts/:slug per aggiornare un post.\r DELETE /posts/:slug per eliminare un post.\r BONUS:\r Implementare la paginazione.\r Gestire gli errori, restituendo uno stato HTTP 404 e un messaggio di errore, nel caso in cui una rotta non sia stata trovata.\r Gestire gli errori, restituendo uno stato HTTP 500 e un messaggio di errore, nel caso in cui venga sollevata un'eccezione dal Prisma Client.\r Buon lavoro!",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^5.15.0",
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "prisma": "^5.15.0"
   }
